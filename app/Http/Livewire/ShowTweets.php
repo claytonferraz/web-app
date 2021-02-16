@@ -30,7 +30,7 @@ class ShowTweets extends Component
         Tweet::create(
             [
                 'content' => $this->content,
-                'user_id' => 1
+                'user_id' => $user->id,
             ]
         );
 

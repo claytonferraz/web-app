@@ -1,4 +1,8 @@
+
 <div>
+    <p>
+
+    </p>
     Show Tweets
     <p> {{ $content }}</p>
 
