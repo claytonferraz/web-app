@@ -8,7 +8,11 @@ use Livewire\Component;
 
 class ShowTweets extends Component
 {
-    public $message = 'Mensagens de dados';
+    public $content = 'Mensagens de dados';
+
+    protected $rules = [
+        'content' => 'required|min:3|max:255'
+    ];
 
     public function render()
     {
@@ -19,13 +23,14 @@ class ShowTweets extends Component
 
     public function create()
     {
-       Tweet::create(
-           [
-               'content' => $this->message,
-               'user_id' => 1
-           ]
-       );
+        $this->validate();
+        Tweet::create(
+            [
+                'content' => $this->content,
+                'user_id' => 1
+            ]
+        );
 
-       $this->message = '';
+        $this->content = '';
     }
 }
