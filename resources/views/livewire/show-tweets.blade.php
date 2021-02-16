@@ -6,7 +6,7 @@
     Show Tweets
     <p> {{ $content }}</p>
 
-    <form action="" method="post" wire:submit.prevent="create" >
+    <form action="" method="post" wire:submit.prevent="store" >
 
         <input type="text" name="content" id="content" wire:model="content">
 
