@@ -1,5 +1,5 @@
 
-<div>
+<div class="px-4 py-5 bg-white shadow sm:p-6 sm:rounded-tl-md sm:rounded-tr-md">
     <p>
 
     </p>
@@ -25,6 +25,12 @@
     @foreach ($tweets as $tweet)
         </p>
         {{ $tweet->user->name }} - {{ $tweet->content }}
+            @if($tweet->likes()->count())
+
+             <a href=""> Descurtir</a>
+            @else
+                <a href=""> Curtir</a>
+            @endif
         <p>
     @endforeach
    <hr>

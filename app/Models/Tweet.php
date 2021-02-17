@@ -16,4 +16,15 @@ class Tweet extends Model
         return $this->belongsTo(User::class);
     }
 
+    public function likes()
+    {
+        return $this->hasMany(Like::class)
+        //->where('user_id', auth()->user()->id);
+        ->where(function($query){
+            if (auth()->check()){
+                    $query->where('user_id', auth()->user()->id);
+            };
+        });
+    }
+
 }
