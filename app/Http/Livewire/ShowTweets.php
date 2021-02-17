@@ -3,16 +3,14 @@
 namespace App\Http\Livewire;
 
 use App\Models\Tweet;
-use App\Models\User;
-
 use Livewire\Component;
 use Livewire\WithPagination;
 
 class ShowTweets extends Component
 {
-    Use WithPagination;
+    use WithPagination;
 
-    public $content = 'Mensagens de dados';
+    public $content = 'Apenas um teste 2';
 
     protected $rules = [
         'content' => 'required|min:3|max:255'
@@ -20,22 +18,16 @@ class ShowTweets extends Component
 
     public function render()
     {
-        $tweets = Tweet::with('user')->latest()->paginate(5);
+        $tweets = Tweet::with('user')->latest()->paginate(4);
 
-        return view('livewire.show-tweets', compact('tweets'));
+        return view('livewire.show-tweets', [
+            'tweets' => $tweets
+        ]);
     }
 
-
-
-    public function store()
+    public function create()
     {
         $this->validate();
-        // Tweet::create(
-        //     [
-        //         'content' => $this->content,
-        //         'user_id' => auth()->user()->id,
-        //     ]
-        // );
 
         auth()->user()->tweets()->create([
             'content' => $this->content,
@@ -43,7 +35,6 @@ class ShowTweets extends Component
 
         $this->content = '';
     }
-
 
     public function like($idTweet)
     {

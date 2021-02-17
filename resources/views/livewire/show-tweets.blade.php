@@ -1,42 +1,39 @@
+<div>
+    <h1 class="h-24 py-6 text-4xl font-bold">Tweets</h1>
 
-<div class="px-4 py-5 bg-white shadow sm:p-6 sm:rounded-tl-md sm:rounded-tr-md">
-    <p>
+    <form method="post" wire:submit.prevent="create" class="px-8 pt-6 pb-8 mb-8 bg-white rounded shadow-md">
+        <label class="block mb-4 text-sm font-bold text-gray-700" for="username">
+            Tweet
+        </label>
+        <textarea name="content" id="content" rows="5" placeholder="O que está pensando?" wire:model="content" class="shadow appearance-none border rounded w-full py-2 px-3 text-gray-700 leading-tight focus:outline-none focus:shadow-outline @error('content') border-red-500 @enderror"></textarea>
+        @error('content') <p><span class="text-red-500">{{ $message }}</span></p> @enderror
+        <button type="submit" class="p-2 pl-6 pr-6 text-white bg-blue-900 rounded">Criar Tweet</button>
+    </form>
 
-    </p>
-    Show Tweets
-    <p> {{ $content }}</p>
-
-    <form action="" method="post" wire:submit.prevent="store" >
-
-        <input type="text" name="content" id="content" wire:model="content">
-
-
-        <button class="inline-flex items-center px-4 py-2 text-xs font-semibold tracking-widest text-white uppercase transition duration-150 ease-in-out bg-gray-800 border border-transparent rounded-md hover:bg-gray-700 active:bg-gray-900 focus:outline-none focus:border-gray-900 focus:shadow-outline-gray disabled:opacity-25" type="submit"> Criar Tweet </button>
-        <span class="danger">
-        @error('content')
-            {{$message}}
-        @enderror
-        </span>
-        </form>
-
-
-
-    <hr>
     @foreach ($tweets as $tweet)
-        </p>
-        {{ $tweet->user->name }} - {{ $tweet->content }}
-            @if($tweet->likes()->count())
-
-             <a href="#" wire:click.prevent="unlike({{$tweet->id}})" > Descurtir</a>
-            @else
-                <a href="#" wire:click.prevent="like({{$tweet->id}})"> Curtir</a>
-            @endif
-        <p>
+        <div class="flex p-4 m-8 bg-white rounded shadow-md">
+            <div class="pl-3 text-center w-1/8">
+                @if ($tweet->user->photo)
+                    <img src="{{ url("storage/{$tweet->user->photo}") }}" alt="{{ $tweet->user->name }}" class="w-8 h-8 rounded-full">
+                @else
+                    <img src="{{ url('imgs/no-image.png') }}" alt="{{ $tweet->user->name }}" class="w-8 h-8 rounded-full">
+                @endif
+                {{-- $tweet->user->name --}}
+            </div>
+            <div class="inline-block pl-3 w-7/8 align-text-middle">
+                {{ $tweet->content }}
+                (
+                    @if ($tweet->likes->count())
+                        <a href="#" wire:click.prevent="unlike({{ $tweet->id }})" class="text-red-500">Descurtir</a>
+                    @else
+                        <a href="#" wire:click.prevent="like({{ $tweet->id }})" class="text-teal-500">Curtir</a>
+                    @endif
+                )
+            </div>
+        </div>
     @endforeach
-   <hr>
-   <div>
-       {{ $tweets->links() }}
-   </div>
 
-
+    <div class="py-12">
+        {{ $tweets->links() }}
+    </div>
 </div>
